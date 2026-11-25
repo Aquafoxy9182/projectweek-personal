@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klantenscherm</title>
+  <!--
+    KLANTENSCHERM — meegegeven, hier hoef je niets aan te veranderen.
+    Uitleg en opstarten: zie de opgave (deel 3).
+
+    Open dit bestand in je browser (dubbelklik, of sleep het in een venster)
+    en zet het venster naast het consolevenster van de kassa.
+
+    Werking:
+      - De kassa schrijft klantscherm.html (jouw HTML) en daarna
+        klantscherm-versie.js (een teller) in deze map.
+      - Deze pagina laadt klantscherm-versie.js een paar keer per seconde.
+        Is de teller veranderd, dan wordt klantscherm.html opnieuw geladen
+        in een verborgen frame en pas getoond als ze volledig klaar is.
+        Zo flikkert het scherm niet.
+      - Werkt rechtstreeks vanaf je schijf (file://), geen webserver nodig.
+  -->
+  <style>
+    html, body { margin: 0; height: 100%; background: #0f172a; overflow: hidden; }
+    iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #0f172a; }
+    iframe.verborgen { visibility: hidden; }
+    #wachten {
+      position: absolute; inset: 0; display: flex; flex-direction: column; gap: 12px;
+      align-items: center; justify-content: center; text-align: center;
+      font: 24px system-ui, sans-serif; color: #94a3b8;
+    }
+    #wachten small { font-size: 16px; color: #64748b; max-width: 40ch; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div id="wachten">
+    Wachten op de kassa…
+    <small>Start de KassaApp. Zodra die klantscherm.html en klantscherm-versie.js
+      in deze map schrijft, verschijnt hier het klantenscherm.</small>
+  </div>
+  <iframe id="frameA" class="verborgen" title="Klantenscherm"></iframe>
+  <iframe id="frameB" class="verborgen" title="Klantenscherm"></iframe>
+
+  <script>
+    const POLL_MS = 300;        // hoe vaak de teller gecontroleerd wordt
+    const WACHT_NA_LADEN = 150; // stijlen (bv. een extern CSS-bestand) even de tijd geven om te laden
+
+    const frames = [document.getElementById("frameA"), document.getElementById("frameB")];
+    const wachten = document.getElementById("wachten");
+    let zichtbaar = -1;          // index van het frame dat nu getoond wordt
+    let getoondeVersie = null;   // versie die nu op het scherm staat
+    let bezigMet = null;         // versie die nu geladen wordt
+    let volgende = null;         // nieuwste versie die nog moet volgen
+
+    function controleerVersie() {
+      const script = document.createElement("script");
+      script.src = "klantscherm-versie.js?t=" + Date.now();
+      script.onload = () => {
+        script.remove();
+        const versie = window.klantschermVersie;
+        if (versie && versie !== getoondeVersie && versie !== bezigMet) {
+          laad(versie);
+        }
+      };
+      script.onerror = () => {
+        script.remove();
+        if (zichtbaar < 0) wachten.style.display = "flex";
+      };
+      document.head.appendChild(script);
+    }
+
+    function laad(versie) {
+      if (bezigMet) { volgende = versie; return; }
+      bezigMet = versie;
+      const doel = frames[zichtbaar === 0 ? 1 : 0];
+      doel.onload = () => setTimeout(() => toon(doel, versie), WACHT_NA_LADEN);
+      doel.src = "klantscherm.html?v=" + encodeURIComponent(versie);
+    }
+
+    function toon(doel, versie) {
+      doel.classList.remove("verborgen");
+      if (zichtbaar >= 0) frames[zichtbaar].classList.add("verborgen");
+      zichtbaar = frames.indexOf(doel);
+      getoondeVersie = versie;
+      wachten.style.display = "none";
+      bezigMet = null;
+      if (volgende && volgende !== getoondeVersie) {
+        const v = volgende;
+        volgende = null;
+        laad(v);
+      }
+    }
+
+    controleerVersie();
+    setInterval(controleerVersie, POLL_MS);
+  </script>
+</body>
+</html>

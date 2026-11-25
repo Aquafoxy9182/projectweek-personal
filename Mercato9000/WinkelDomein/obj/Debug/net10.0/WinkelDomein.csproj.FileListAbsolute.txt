@@ -1,0 +1,12 @@
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\bin\Debug\net10.0\WinkelDomein.deps.json
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\bin\Debug\net10.0\WinkelDomein.dll
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\bin\Debug\net10.0\WinkelDomein.pdb
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDomein.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDomein.AssemblyInfoInputs.cache
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDomein.AssemblyInfo.cs
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDomein.csproj.CoreCompileInputs.cache
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDomein.dll
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\refint\WinkelDomein.dll
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDomein.pdb
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\ref\WinkelDomein.dll
+C:\Users\aqua\Documents\Mercato9000\WinkelDomein\obj\Debug\net10.0\WinkelDo.EA181A4C.Up2Date
